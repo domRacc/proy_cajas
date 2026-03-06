@@ -4,7 +4,7 @@ import os, math, requests
 app = Flask(__name__)
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "mi-token-secreto")
-WHATSAPP_TOKEN = os.getenv("EAARykrXqkagBQZCHtlq0peecEftp536rL89hA2vZByAOKUWoWZBmkC9UvFQusZAMMGtIdJp3qwbx1cZBRJAxCMtV8GrdDcv1OfCFn5FgZCdL2EAODULOZCCHjADZBEeahj6yCRk4Czmc53jJlQ8PN0todOC0E6MQduusK879k8GoiwSe4r22x2q2wL4iGOZAQgLPeZCdIvkYidTdojrKgZBDAUWGqIlMkzQtf2GcblZBbrOYg0JZAjVsyECOrQqIdzlIOZA5fxZBhI0dUyFkztTpaSEA0izdiNM7AZDZD")
+WHATSAPP_TOKEN = os.getenv("EAARykrXqkagBQ9937S6eHXjB0e8g8as9ofznCy72NTSpZC8apXi0eZBFmYgo8U3ZA4bULFT7ALk1lMqLqp1bejVlQJeczZCqbMCMm2x5UUZBrPPKtj7K9Ud9GKAtZCILTME8MI5PlqxOcXllUbALNlG2JFObfHGqTjaUQuV3u4ZCcR0XpH1whewZCIXKDgXAMF4yEQXZAduyzzYrkyiy8LGsTeVKjYXXSO20vYoGv9KiNiEWF05EpY5C2wnUoutjktCYBikFdOJs2nuru8EsDuWBKHyav")
 PHONE_NUMBER_ID = os.getenv("1043123335547022")
 
 # Guarda el estado de cada usuario
@@ -212,6 +212,7 @@ def verify_webhook():
 @app.post("/webhook")
 def webhook():
     data = request.get_json()
+    print(f"DEBUG: Datos recibidos de Meta: {data}")
     try:
         messages = data["entry"][0]["changes"][0]["value"].get("messages", [])
         if messages:
