@@ -228,9 +228,6 @@ def webhook():
 # ===== ENVIAR MENSAJE =====
 
 def enviar_mensaje(to_number, mensaje):
-    if not WHATSAPP_TOKEN or not PHONE_NUMBER_ID:
-        print("ERROR: Falta WHATSAPP_TOKEN o PHONE_NUMBER_ID en variables de entorno")
-    return
     url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
     headers = {
         "Authorization": f"Bearer {WHATSAPP_TOKEN}",
