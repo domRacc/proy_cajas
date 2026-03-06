@@ -4,7 +4,7 @@ import os, math, requests
 app = Flask(__name__)
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "mi-token-secreto")
-WHATSAPP_TOKEN = os.getenv("EAARykrXqkagBQzk31R19ZC8JC08iG38TnwtgAAWuNEORzekmjjDraMM6GF4k9X8PlaBK5MUGQHyiJhyaZBdnzWBbPGRQ6SYl6mBIn1qsnpDoOAKwTuWzEEMMidOZAZAnQ5nVJrDZCaJYLAAx8lxsZB5btH3AqyP28srsNWmWECfjo61ZCkVLuaMZBWZBLeuzHMilW0EDiq2dqES5aZBZCoBbBQXHHFKGuGCgKRgJiIWE96zrR6EoQuZArWNUZCh52OvQXoTGkQGqkviZAnwHRVd4LSDjrlgBR1")
+WHATSAPP_TOKEN = os.getenv("EAARykrXqkagBQZCHtlq0peecEftp536rL89hA2vZByAOKUWoWZBmkC9UvFQusZAMMGtIdJp3qwbx1cZBRJAxCMtV8GrdDcv1OfCFn5FgZCdL2EAODULOZCCHjADZBEeahj6yCRk4Czmc53jJlQ8PN0todOC0E6MQduusK879k8GoiwSe4r22x2q2wL4iGOZAQgLPeZCdIvkYidTdojrKgZBDAUWGqIlMkzQtf2GcblZBbrOYg0JZAjVsyECOrQqIdzlIOZA5fxZBhI0dUyFkztTpaSEA0izdiNM7AZDZD")
 PHONE_NUMBER_ID = os.getenv("1043123335547022")
 
 # Guarda el estado de cada usuario
@@ -46,7 +46,7 @@ def calcular_caja(largo, ancho, alto, tipocarton, valorkilo, matriz, clisse, col
         "14": (450, valorkilo / 2.5 * 1.125),
         "17": (500, valorkilo / 2.5 * 1.25),
         "20": (600, valorkilo / 2.5 * 1.5),
-        "30": (800, valorkilo / 2.5 * 2),
+        
     }
     if tipocarton not in tipos:
         return " Tipo de cartón no válido."
@@ -75,9 +75,9 @@ def calcular_caja(largo, ancho, alto, tipocarton, valorkilo, matriz, clisse, col
 MSG_BIENVENIDA = (
     " ¡Bienvenido a *Cartón Chile*!\n\n"
     "Soy tu asistente de cotizaciones. ¿En qué te puedo ayudar?\n\n"
-    "1️⃣ Cotizar caja de cartón\n"
-    "2️⃣ Consultar tipos de cartón\n"
-    "0️⃣ Salir\n\n"
+    "1 Cotizar caja de cartón\n"
+    "2 Consultar tipos de cartón\n"
+    "0 Salir\n\n"
     "_Responde con el número de la opción._"
 )
 
@@ -87,7 +87,6 @@ MSG_TIPOS_CARTON = (
     "• *14* - Reforzado\n"
     "• *17* - Doble cara\n"
     "• *20* - Extra resistente\n"
-    "• *30* - Alta resistencia\n\n"
     "Escribe *menu* para volver al inicio."
 )
 
@@ -113,30 +112,30 @@ def procesar_mensaje(numero, texto):
     if paso == 0:
         if texto == "1":
             usuarios[numero]["paso"] = 1
-            return "📏 *Paso 1/7*\n¿Cuál es el *largo* de la caja? (en mm)\nEjemplo: `300`"
+            return " *Paso 1/7*\n¿Cuál es el *largo* de la caja? (en mm)\nEjemplo: `300`"
         elif texto == "2":
             return MSG_TIPOS_CARTON
         else:
-            return "❓ Opción no válida. Responde *1*, *2* o *0*."
+            return " Opción no válida. Responde *1*, *2* o *0*."
 
     # ── RECOLECCIÓN DE DATOS ──
     elif paso == 1:
         if not texto.isdigit():
-            return "⚠️ Ingresa solo números. ¿Cuál es el *largo*? (mm)"
+            return " Ingresa solo números. ¿Cuál es el *largo*? (mm)"
         estado["largo"] = int(texto)
         estado["paso"] = 2
         return "📏 *Paso 2/7*\n¿Cuál es el *ancho* de la caja? (en mm)\nEjemplo: `200`"
 
     elif paso == 2:
         if not texto.isdigit():
-            return "⚠️ Ingresa solo números. ¿Cuál es el *ancho*? (mm)"
+            return " Ingresa solo números. ¿Cuál es el *ancho*? (mm)"
         estado["ancho"] = int(texto)
         estado["paso"] = 3
         return "📏 *Paso 3/7*\n¿Cuál es el *alto* de la caja? (en mm)\nEjemplo: `100`"
 
     elif paso == 3:
         if not texto.isdigit():
-            return "⚠️ Ingresa solo números. ¿Cuál es el *alto*? (mm)"
+            return " Ingresa solo números. ¿Cuál es el *alto*? (mm)"
         estado["alto"] = int(texto)
         estado["paso"] = 4
         return (
@@ -150,7 +149,7 @@ def procesar_mensaje(numero, texto):
 
     elif paso == 4:
         if texto not in ["12", "14", "17", "20", "30"]:
-            return "⚠️ Tipo no válido. Elige: *12*, *14*, *17*, *20* o *30*."
+            return " Tipo no válido. Elige: *12*, *14*, *17*, *20* o *30*."
         estado["tipocarton"] = texto
         estado["paso"] = 5
         return (
