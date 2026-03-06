@@ -4,8 +4,8 @@ import os, math, requests
 app = Flask(__name__)
 
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "mi-token-secreto")
-WHATSAPP_TOKEN = os.getenv("EAARykrXqkagBQwMgLIvoYetXqwiHhVlwmOlZBgYlIlYjuNWFfe0ZANPHJGRfy4FBMzWQZAEaDF2INaqWTi9nsgO4sVSmQoR3PRwIFqdnfuDmSZAk3uZAh8T9NKlXEsNSLsc0y8z5xX037qtWFLrw5LMQWgIxAcRHgIH1cjZChiVsTPCd1AZCIytAk4Yju7denABV8ctIZAJqDwYsPbq1lPXhoHzMz2ZBalw6HkkWBYMZAz7bypl7Kp4BNSSDDSaSWvJqQm0YEZAh6p9yfZBByjVFPJFmz2sf")
-PHONE_NUMBER_ID = os.getenv("1043123335547022")
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")  
+PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 
 # Guarda el estado de cada usuario
 usuarios = {}
@@ -226,7 +226,11 @@ def webhook():
     return "OK", 200
 
 # ===== ENVIAR MENSAJE =====
+
 def enviar_mensaje(to_number, mensaje):
+    if not WHATSAPP_TOKEN or not PHONE_NUMBER_ID:
+        print("ERROR: Falta WHATSAPP_TOKEN o PHONE_NUMBER_ID en variables de entorno")
+    return
     url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
     headers = {
         "Authorization": f"Bearer {WHATSAPP_TOKEN}",
