@@ -237,7 +237,9 @@ def enviar_mensaje(to_number, mensaje):
         "to": to_number,
         "text": {"body": mensaje}
     }
-    requests.post(url, headers=headers, json=payload)
+    respuesta=requests.post(url, headers=headers, json=payload)
+    print(f"DEBUG: Respuesta de Meta al enviar: {respuesta.json()}")
+    return respuesta.json()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
