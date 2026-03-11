@@ -10,7 +10,7 @@ PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 # Guarda el estado de cada usuario
 usuarios = {}
 
-# ===== LÓGICA DE CÁLCULO =====
+# ==== LÓGICA DE CÁLCULO ====
 def calcular_caja(largo, ancho, alto, tipocarton, valorkilo, matriz, clisse, color, cantidad, bobinax=1600):
     valorkilo = int(valorkilo)
     matriz = int(matriz)
@@ -18,6 +18,11 @@ def calcular_caja(largo, ancho, alto, tipocarton, valorkilo, matriz, clisse, col
     color = int(color)
     cantidad = int(cantidad)
     bobinax = int(bobinax)
+
+    # Convertir cm a mm para el cálculo interno
+    largo = int(largo) * 10
+    ancho = int(ancho) * 10
+    alto = int(alto) * 10
 
     largo_placa = int(largo)*2 + int(ancho)*2 + 50
     desarrollo = f"{int(largo)}x{int(ancho)}x{int(alto)}"
@@ -71,7 +76,7 @@ def calcular_caja(largo, ancho, alto, tipocarton, valorkilo, matriz, clisse, col
         f"_Precio unitario sin IVA_"
     )
 
-# ===== MENSAJES FIJOS =====
+# ==== MENSAJES FIJOS ====
 MSG_BIENVENIDA = (
     " ¡Bienvenido a *Cartón Chile*!\n\n"
     "Soy tu asistente de cotizaciones. ¿En qué te puedo ayudar?\n\n"
@@ -90,7 +95,7 @@ MSG_TIPOS_CARTON = (
     "Escribe *menu* para volver al inicio."
 )
 
-# ===== FLUJO CONVERSACIONAL =====
+# ==== FLUJO CONVERSACIONAL ====
 def procesar_mensaje(numero, texto):
     texto = texto.strip()
     texto_lower = texto.lower()
@@ -112,7 +117,7 @@ def procesar_mensaje(numero, texto):
     if paso == 0:
         if texto == "1":
             usuarios[numero]["paso"] = 1
-            return " *Paso 1/7*\n¿Cuál es el *largo* de la caja? (en mm)\nEjemplo: `300`"
+            return "📏 *Paso 1/6*\n¿Cuál es el *largo* de la caja? (en cm)\nEjemplo: `30`"
         elif texto == "2":
             return MSG_TIPOS_CARTON
         else:
@@ -121,25 +126,25 @@ def procesar_mensaje(numero, texto):
     # ── RECOLECCIÓN DE DATOS ──
     elif paso == 1:
         if not texto.isdigit():
-            return " Ingresa solo números. ¿Cuál es el *largo*? (mm)"
+            return "⚠️ Ingresa solo números. ¿Cuál es el *largo*? (cm)"
         estado["largo"] = int(texto)
         estado["paso"] = 2
-        return "📏 *Paso 2/7*\n¿Cuál es el *ancho* de la caja? (en mm)\nEjemplo: `200`"
+        return "📏 *Paso 2/6*\n¿Cuál es el *ancho* de la caja? (en cm)\nEjemplo: `20`"
 
     elif paso == 2:
         if not texto.isdigit():
-            return " Ingresa solo números. ¿Cuál es el *ancho*? (mm)"
+            return "⚠️ Ingresa solo números. ¿Cuál es el *ancho*? (cm)"
         estado["ancho"] = int(texto)
         estado["paso"] = 3
-        return "📏 *Paso 3/7*\n¿Cuál es el *alto* de la caja? (en mm)\nEjemplo: `100`"
+        return "📏 *Paso 3/6*\n¿Cuál es el *alto* de la caja? (en cm)\nEjemplo: `10`"
 
     elif paso == 3:
         if not texto.isdigit():
-            return " Ingresa solo números. ¿Cuál es el *alto*? (mm)"
+            return "⚠️ Ingresa solo números. ¿Cuál es el *alto*? (cm)"
         estado["alto"] = int(texto)
         estado["paso"] = 4
         return (
-            "📋 *Paso 4/7*\n¿Qué *tipo de cartón* necesitas?\n\n"
+            "📋 *Paso 4/6*\n¿Qué *tipo de cartón* necesitas?\n\n"
             "• *12* - Simple\n"
             "• *14* - Reforzado\n"
             "• *17* - Doble cara\n"
@@ -151,12 +156,9 @@ def procesar_mensaje(numero, texto):
         if texto not in ["12", "14", "17", "20", "30"]:
             return " Tipo no válido. Elige: *12*, *14*, *17*, *20* o *30*."
         estado["tipocarton"] = texto
-        estado["paso"] = 5
-        return (
-            "*Paso 5/7*\n¿Cuál es el *valor del kilo* de cartón?\n\n"
-            "• 1150\n• 1250\n• 1350\n• 1450\n• 1550\n\n"
-            "Responde con el número."
-        )
+        estado["valorkilo"] = 1150
+        estado["paso"] = 6
+        return "*Paso 5/6*\n¿Cuántos *colores* de impresión lleva la caja?\n(0 si no lleva impresión)"
 
     elif paso == 5:
         if texto not in ["1150", "1250", "1350", "1450", "1550"]:
@@ -170,7 +172,7 @@ def procesar_mensaje(numero, texto):
             return " Ingresa solo números. ¿Cuántos *colores*?"
         estado["color"] = int(texto)
         estado["paso"] = 7
-        return "*Paso 7/7*\n¿Cuántas *cajas* necesitas?\n(0 si aún no lo sabes)"
+        return "*Paso 6/6*\n¿Cuántas *cajas* necesitas?\n(0 si aún no lo sabes)"
 
     elif paso == 7:
         if not texto.isdigit():
@@ -199,7 +201,7 @@ def procesar_mensaje(numero, texto):
 
     return MSG_BIENVENIDA
 
-# ===== WEBHOOK =====
+# ==== WEBHOOK ====
 @app.get("/webhook")
 def verify_webhook():
     mode = request.args.get("hub.mode")
@@ -225,7 +227,7 @@ def webhook():
         print(f"Error: {e}")
     return "OK", 200
 
-# ===== ENVIAR MENSAJE =====
+# ==== ENVIAR MENSAJE ====
 
 def enviar_mensaje(to_number, mensaje):
     url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
