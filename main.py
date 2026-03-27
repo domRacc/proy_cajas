@@ -72,7 +72,7 @@ def calcular_caja(largo, ancho, alto, tipocarton, color_carton, valorkilo, matri
     preciocaja_iva  = preciocaja  * (1 + IVA)
     preciocajax_iva = preciocajax * (1 + IVA)
 
-    tipo_carton_label = "⬜ Blanco" if color_carton == "blanco" else "🟫 Café"
+    tipo_carton_label = " Blanco" if color_carton == "blanco" else " Café"
 
     return (
         f" *COTIZACIÓN DE CAJA*\n\n"
@@ -100,12 +100,12 @@ MSG_BIENVENIDA = (
 )
 
 MSG_TIPOS_CARTON = (
-    "📋 *Tipos de cartón disponibles:*\n\n"
+    " *Tipos de cartón disponibles:*\n\n"
     "• *12* - Simple (liviano)\n"
     "• *14* - Reforzado\n"
     "• *17* - Doble cara\n"
     "• *20* - Extra resistente\n\n"
-    "🎨 *Color de cartón:*\n"
+    " *Color de cartón:*\n"
     "• *Café* - Precio estándar\n"
     "• *Blanco* - Precio + 25%\n\n"
     "Escribe *menu* para volver al inicio."
@@ -133,7 +133,7 @@ def procesar_mensaje(numero, texto):
     if paso == 0:
         if texto == "1":
             usuarios[numero]["paso"] = 1
-            return "📏 *Paso 1/7*\n¿Cuál es el *largo* de la caja? (en cm)\nEjemplo: `30`"
+            return " *Paso 1/7*\n¿Cuál es el *largo* de la caja? (en cm)\nEjemplo: `30`"
         elif texto == "2":
             return MSG_TIPOS_CARTON
         else:
@@ -145,14 +145,14 @@ def procesar_mensaje(numero, texto):
             return "⚠️ Ingresa solo números. ¿Cuál es el *largo*? (cm)"
         estado["largo"] = int(texto)
         estado["paso"] = 2
-        return "📏 *Paso 2/7*\n¿Cuál es el *ancho* de la caja? (en cm)\nEjemplo: `20`"
+        return " *Paso 2/7*\n¿Cuál es el *ancho* de la caja? (en cm)\nEjemplo: `20`"
 
     elif paso == 2:
         if not texto.isdigit():
             return "⚠️ Ingresa solo números. ¿Cuál es el *ancho*? (cm)"
         estado["ancho"] = int(texto)
         estado["paso"] = 3
-        return "📏 *Paso 3/7*\n¿Cuál es el *alto* de la caja? (en cm)\nEjemplo: `10`"
+        return " *Paso 3/7*\n¿Cuál es el *alto* de la caja? (en cm)\nEjemplo: `10`"
 
     elif paso == 3:
         if not texto.isdigit():
@@ -160,7 +160,7 @@ def procesar_mensaje(numero, texto):
         estado["alto"] = int(texto)
         estado["paso"] = 4
         return (
-            "📋 *Paso 4/7*\n¿Qué *tipo de cartón* necesitas?\n\n"
+            " *Paso 4/7*\n¿Qué *tipo de cartón* necesitas?\n\n"
             "• *12* - Simple\n"
             "• *14* - Reforzado\n"
             "• *17* - Doble cara\n"
@@ -175,7 +175,7 @@ def procesar_mensaje(numero, texto):
         estado["valorkilo"] = 1150
         estado["paso"] = 5
         return (
-            "🎨 *Paso 5/6*\n¿De qué *color* es el cartón?\n\n"
+            " *Paso 5/6*\n¿De qué *color* es el cartón?\n\n"
             "• *1* - Café \n" #(precio estándar)
             "• *2* - Blanco \n\n" #(precio + 25%)
             "Responde con *1* o *2*."
@@ -183,7 +183,7 @@ def procesar_mensaje(numero, texto):
 
     elif paso == 5:
         if texto not in ["1", "2"]:
-            return "⚠️ Opción no válida. Responde *1* para Café o *2* para Blanco."
+            return " Opción no válida. Responde *1* para Café o *2* para Blanco."
         estado["color_carton"] = "cafe" if texto == "1" else "blanco"
         estado["paso"] = 6
         return "*Paso 5/6*\n¿Cuántos *colores* de impresión lleva la caja?\n(0 si no lleva impresión)"
