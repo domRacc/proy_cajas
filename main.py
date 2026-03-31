@@ -156,7 +156,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         resultado = (
             f"📦 *COTIZACIÓN DE CAJA DE CARTÓN*\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"📏 *ESPECIFICACIONES*\n"
+            f" *ESPECIFICACIONES*\n"
             f"• Medidas internas: {desarrollo_interno} cm\n"
             f"• Medidas externas: {desarrollo_externo} cm\n"
             f"• Tipo de cartón: *{tipocarton}* ({tipo_carton_label})\n"
@@ -174,7 +174,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         resultado += (
             f"\n💰 *COTIZACIÓN*\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"📊 *Bobina óptima ({bobina}mm):*\n"
+            f" *Bobina óptima ({bobina}mm):*\n"
             f"   • Precio unitario (sin IVA): ${int(preciocaja):,}\n"
             f"   • Precio unitario (con IVA): ${int(preciocaja_iva):,}\n"
         )
@@ -183,7 +183,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
             resultado += f"   • *PRECIO TOTAL: ${int(precio_total):,}* (IVA inc.)\n"
         
         resultado += (
-            f"\n📊 *Bobina alternativa ({bobinax}mm):*\n"
+            f"\n*Bobina alternativa ({bobinax}mm):*\n"
             f"   • Precio unitario (sin IVA): ${int(preciocajax):,}\n"
             f"   • Precio unitario (con IVA): ${int(preciocajax_iva):,}\n"
         )
@@ -194,8 +194,8 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         
         resultado += (
             f"\n━━━━━━━━━━━━━━━━━━━━\n"
-            f"ℹ️ _IVA incluido: 19%_\n"
-            f"ℹ️ _Esta es una cotización de referencia_\n\n"
+            f"IVA incluido: 19%_\n"
+            f"Esta es una cotización de referencia_\n\n"
             f"📞 *Para confirmar tu pedido, contáctanos:*\n"
             f"   📧 Email: ventas@cartonchile.cl\n"
             f"   ☎️ Teléfono: +56 9 1234 5678\n\n"
@@ -209,7 +209,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
 
 # ==== MENSAJES FIJOS ====
 MSG_BIENVENIDA = (
-    "🏭 *¡Bienvenido a Cartón Chile!*\n\n"
+    "*¡Bienvenido a Cartón Chile!*\n\n"
     "👋 Soy tu asistente virtual de cotizaciones.\n\n"
     "🔹 *1* - Cotizar caja de cartón\n"
     "🔹 *2* - Consultar tipos de cartón\n"
@@ -218,7 +218,7 @@ MSG_BIENVENIDA = (
 )
 
 MSG_TIPOS_CARTON = (
-    "📋 *Tipos de cartón disponibles:*\n\n"
+    "*Tipos de cartón disponibles:*\n\n"
     "🔹 *12* - Simple (liviano) - 3mm grosor\n"
     "🔹 *14* - Reforzado - 4mm grosor\n"
     "🔹 *17* - Doble cara - 5mm grosor\n"
@@ -233,15 +233,15 @@ MSG_TIPOS_CARTON = (
 
 # ==== FUNCIONES DE VALIDACIÓN ====
 def validar_medida(texto):
-    """Valida que la medida sea un número válido entre 1 y 300 cm"""
+    """Valida que la medida sea un número válido entre 1 y 1000 cm"""
     if not texto.isdigit():
         return False, "⚠️ Ingresa solo números."
     
     medida = int(texto)
     if medida <= 0:
         return False, "⚠️ La medida debe ser mayor a 0 cm."
-    if medida > 300:
-        return False, "⚠️ La medida no puede ser mayor a 300 cm."
+    if medida > 1000:
+        return False, "⚠️ La medida no puede ser mayor a 1000 cm."
     
     return True, medida
 
@@ -289,7 +289,7 @@ def procesar_mensaje(numero, texto):
     if paso == 0:
         if texto == "1":
             usuarios[numero]["paso"] = 1
-            return "📏 *Paso 1/6*\n\n¿Cuál es el *largo INTERNO* de la caja? (en cm)\n\n_Ejemplo: 30_\n\n💡 _Tip: Solo necesitas las medidas internas._\n_Nosotros calculamos las externas sumando el grosor del cartón._"
+            return "*Paso 1/7*\n\n¿Cuál es el *largo INTERNO* de la caja? (en cm)\n\n_Ejemplo: 30_\n\n💡 _Tip: Solo necesitas las medidas internas._\n_Nosotros calculamos las externas sumando el grosor del cartón._"
         elif texto == "2":
             return MSG_TIPOS_CARTON
         else:
@@ -302,7 +302,7 @@ def procesar_mensaje(numero, texto):
             return f"{resultado}\n\n¿Cuál es el *largo interno*? (cm)"
         estado["largo"] = resultado
         estado["paso"] = 2
-        return "📏 *Paso 2/6*\n\n¿Cuál es el *ancho INTERNO* de la caja? (en cm)\n\n_Ejemplo: 20_"
+        return "*Paso 2/7*\n\n¿Cuál es el *ancho INTERNO* de la caja? (en cm)\n\n_Ejemplo: 20_"
 
     elif paso == 2:  # ANCHO
         valido, resultado = validar_medida(texto)
@@ -310,7 +310,7 @@ def procesar_mensaje(numero, texto):
             return f"{resultado}\n\n¿Cuál es el *ancho interno*? (cm)"
         estado["ancho"] = resultado
         estado["paso"] = 3
-        return "📏 *Paso 3/6*\n\n¿Cuál es el *alto INTERNO* de la caja? (en cm)\n\n_Ejemplo: 10_"
+        return "*Paso 3/7*\n\n¿Cuál es el *alto INTERNO* de la caja? (en cm)\n\n_Ejemplo: 10_"
 
     elif paso == 3:  # ALTO
         valido, resultado = validar_medida(texto)
@@ -319,7 +319,7 @@ def procesar_mensaje(numero, texto):
         estado["alto"] = resultado
         estado["paso"] = 4
         return (
-            "📦 *Paso 4/6*\n\n¿Qué *tipo de cartón* necesitas?\n\n"
+            "*Paso 4/7*\n\n¿Qué *tipo de cartón* necesitas?\n\n"
             "🔹 *12* - Simple (3mm)\n"
             "🔹 *14* - Reforzado (4mm)\n"
             "🔹 *17* - Doble cara (5mm)\n"
@@ -333,7 +333,7 @@ def procesar_mensaje(numero, texto):
         estado["tipocarton"] = texto
         estado["paso"] = 5
         return (
-            "🎨 *Paso 5/6*\n\n¿De qué *color* es el cartón?\n\n"
+            "🎨 *Paso 5/7*\n\n¿De qué *color* es el cartón?\n\n"
             "🔹 *1* - Café (precio estándar)\n"
             "🔹 *2* - Blanco (precio + 25%)\n\n"
             "_Responde con 1 o 2._"
@@ -344,7 +344,7 @@ def procesar_mensaje(numero, texto):
             return "⚠️ Opción no válida.\n\nResponde *1* para Café o *2* para Blanco."
         estado["color_carton"] = "cafe" if texto == "1" else "blanco"
         estado["paso"] = 6
-        return "🎨 *Paso 6/6*\n\n¿Cuántos *colores de impresión* lleva la caja?\n\n_Responde 0 si no lleva impresión._"
+        return "🎨 *Paso 6/7*\n\n¿Cuántos *colores de impresión* lleva la caja?\n\n_Responde 0 si no lleva impresión._"
 
     elif paso == 6:  # COLORES
         if not texto.isdigit():
@@ -354,7 +354,7 @@ def procesar_mensaje(numero, texto):
             return "⚠️ El número de colores debe estar entre 0 y 4.\n\n¿Cuántos *colores*?"
         estado["color"] = colores
         estado["paso"] = 7
-        return "📊 *Paso 7/7*\n\n¿Cuántas *cajas* necesitas?\n\n_Responde 0 si aún no lo sabes._"
+        return " *Paso 7/7*\n\n¿Cuántas *cajas* necesitas?\n\n_Responde 0 si aún no lo sabes._"
 
     elif paso == 7:  # CANTIDAD
         valido, resultado = validar_cantidad(texto)
