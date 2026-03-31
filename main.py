@@ -106,7 +106,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         }
         
         if tipocarton not in tipos:
-            return " Tipo de cartón no válido. Elige: 12, 14, 17 o 20."
+            return "❌ Tipo de cartón no válido. Elige: 12, 14, 17 o 20."
         
         m2_gramaje, valor_por_m2 = tipos[tipocarton]
         
@@ -154,9 +154,9 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         tipo_carton_label = "Blanco" if color_carton == "blanco" else "Café"
         
         resultado = (
-            f" *COTIZACIÓN DE CAJA DE CARTÓN*\n\n"
+            f"📦 *COTIZACIÓN DE CAJA DE CARTÓN*\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f" *ESPECIFICACIONES*\n"
+            f"📏 *ESPECIFICACIONES*\n"
             f"• Medidas internas: {desarrollo_interno} cm\n"
             f"• Medidas externas: {desarrollo_externo} cm\n"
             f"• Tipo de cartón: *{tipocarton}* ({tipo_carton_label})\n"
@@ -172,9 +172,9 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
             resultado += f"• Cantidad: *{cantidad:,}* unidades\n"
         
         resultado += (
-            f"\ *COTIZACIÓN*\n"
+            f"\n💰 *COTIZACIÓN*\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f" *Bobina óptima ({bobina}mm):*\n"
+            f"📊 *Bobina óptima ({bobina}mm):*\n"
             f"   • Precio unitario (sin IVA): ${int(preciocaja):,}\n"
             f"   • Precio unitario (con IVA): ${int(preciocaja_iva):,}\n"
         )
@@ -183,7 +183,7 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
             resultado += f"   • *PRECIO TOTAL: ${int(precio_total):,}* (IVA inc.)\n"
         
         resultado += (
-            f"\*Bobina alternativa ({bobinax}mm):*\n"
+            f"\n📊 *Bobina alternativa ({bobinax}mm):*\n"
             f"   • Precio unitario (sin IVA): ${int(preciocajax):,}\n"
             f"   • Precio unitario (con IVA): ${int(preciocajax_iva):,}\n"
         )
@@ -194,9 +194,9 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
         
         resultado += (
             f"\n━━━━━━━━━━━━━━━━━━━━\n"
-            f"IVA incluido: 19%_\n"
-            f" Esta es una cotización de referencia_\n\n"
-            f" *Para confirmar tu pedido, contáctanos:*\n"
+            f"ℹ️ _IVA incluido: 19%_\n"
+            f"ℹ️ _Esta es una cotización de referencia_\n\n"
+            f"📞 *Para confirmar tu pedido, contáctanos:*\n"
             f"   📧 Email: ventas@cartonchile.cl\n"
             f"   ☎️ Teléfono: +56 9 1234 5678\n\n"
             f"Escribe *menu* para hacer otra cotización."
@@ -209,24 +209,24 @@ def calcular_caja(largo_interno, ancho_interno, alto_interno, tipocarton, color_
 
 # ==== MENSAJES FIJOS ====
 MSG_BIENVENIDA = (
-    " *¡Bienvenido a Cartón Chile!*\n\n"
+    "🏭 *¡Bienvenido a Cartón Chile!*\n\n"
     "👋 Soy tu asistente virtual de cotizaciones.\n\n"
-    " *1* - Cotizar caja de cartón\n"
-    " *2* - Consultar tipos de cartón\n"
-    "*0* - Salir\n\n"
+    "🔹 *1* - Cotizar caja de cartón\n"
+    "🔹 *2* - Consultar tipos de cartón\n"
+    "🔹 *0* - Salir\n\n"
     "_Responde con el número de la opción._"
 )
 
 MSG_TIPOS_CARTON = (
-    "*Tipos de cartón disponibles:*\n\n"
-    "*12* - Simple (liviano) - 3mm grosor\n"
-    "*14* - Reforzado - 4mm grosor\n"
-    "*17* - Doble cara - 5mm grosor\n"
-    "*20* - Extra resistente - 7mm grosor\n\n"
+    "📋 *Tipos de cartón disponibles:*\n\n"
+    "🔹 *12* - Simple (liviano) - 3mm grosor\n"
+    "🔹 *14* - Reforzado - 4mm grosor\n"
+    "🔹 *17* - Doble cara - 5mm grosor\n"
+    "🔹 *20* - Extra resistente - 7mm grosor\n\n"
     "🎨 *Color de cartón:*\n"
     "• *Café* - Precio estándar\n"
     "• *Blanco* - Precio + 25%\n\n"
-    " _Nota: El grosor se suma automáticamente_\n"
+    "💡 _Nota: El grosor se suma automáticamente_\n"
     "_a las medidas internas que nos indiques._\n\n"
     "Escribe *menu* para volver al inicio."
 )
@@ -235,26 +235,26 @@ MSG_TIPOS_CARTON = (
 def validar_medida(texto):
     """Valida que la medida sea un número válido entre 1 y 300 cm"""
     if not texto.isdigit():
-        return False, "Ingresa solo números."
+        return False, "⚠️ Ingresa solo números."
     
     medida = int(texto)
     if medida <= 0:
-        return False, " La medida debe ser mayor a 0 cm."
+        return False, "⚠️ La medida debe ser mayor a 0 cm."
     if medida > 300:
-        return False, " La medida no puede ser mayor a 300 cm."
+        return False, "⚠️ La medida no puede ser mayor a 300 cm."
     
     return True, medida
 
 def validar_cantidad(texto):
     """Valida que la cantidad sea un número válido entre 0 y 100000"""
     if not texto.isdigit():
-        return False, " Ingresa solo números."
+        return False, "⚠️ Ingresa solo números."
     
     cantidad = int(texto)
     if cantidad < 0:
-        return False, " La cantidad no puede ser negativa."
+        return False, "⚠️ La cantidad no puede ser negativa."
     if cantidad > 100000:
-        return False, " La cantidad no puede ser mayor a 100,000 unidades.\nContacta a ventas para pedidos mayores."
+        return False, "⚠️ La cantidad no puede ser mayor a 100,000 unidades.\nContacta a ventas para pedidos mayores."
     
     return True, cantidad
 
@@ -289,7 +289,7 @@ def procesar_mensaje(numero, texto):
     if paso == 0:
         if texto == "1":
             usuarios[numero]["paso"] = 1
-            return "*Paso 1/6*\n\n¿Cuál es el *largo INTERNO* de la caja? (en cm)\n\n_Ejemplo: 30_\n\n💡 _Tip: Solo necesitas las medidas internas._\n_Nosotros calculamos las externas sumando el grosor del cartón._"
+            return "📏 *Paso 1/6*\n\n¿Cuál es el *largo INTERNO* de la caja? (en cm)\n\n_Ejemplo: 30_\n\n💡 _Tip: Solo necesitas las medidas internas._\n_Nosotros calculamos las externas sumando el grosor del cartón._"
         elif texto == "2":
             return MSG_TIPOS_CARTON
         else:
@@ -302,7 +302,7 @@ def procesar_mensaje(numero, texto):
             return f"{resultado}\n\n¿Cuál es el *largo interno*? (cm)"
         estado["largo"] = resultado
         estado["paso"] = 2
-        return " *Paso 2/6*\n\n¿Cuál es el *ancho INTERNO* de la caja? (en cm)\n\n_Ejemplo: 20_"
+        return "📏 *Paso 2/6*\n\n¿Cuál es el *ancho INTERNO* de la caja? (en cm)\n\n_Ejemplo: 20_"
 
     elif paso == 2:  # ANCHO
         valido, resultado = validar_medida(texto)
@@ -319,7 +319,7 @@ def procesar_mensaje(numero, texto):
         estado["alto"] = resultado
         estado["paso"] = 4
         return (
-            " *Paso 4/6*\n\n¿Qué *tipo de cartón* necesitas?\n\n"
+            "📦 *Paso 4/6*\n\n¿Qué *tipo de cartón* necesitas?\n\n"
             "🔹 *12* - Simple (3mm)\n"
             "🔹 *14* - Reforzado (4mm)\n"
             "🔹 *17* - Doble cara (5mm)\n"
@@ -329,30 +329,30 @@ def procesar_mensaje(numero, texto):
 
     elif paso == 4:  # TIPO DE CARTÓN
         if texto not in ["12", "14", "17", "20"]:
-            return "Tipo no válido.\n\nElige: *12*, *14*, *17* o *20*."
+            return "⚠️ Tipo no válido.\n\nElige: *12*, *14*, *17* o *20*."
         estado["tipocarton"] = texto
         estado["valorkilo"] = 1150  # Precio base por kilo
         estado["paso"] = 5
         return (
-            " *Paso 5/6*\n\n¿De qué *color* es el cartón?\n\n"
-            " *1* - Café (precio estándar)\n"
-            " *2* - Blanco (precio + 25%)\n\n"
+            "🎨 *Paso 5/6*\n\n¿De qué *color* es el cartón?\n\n"
+            "🔹 *1* - Café (precio estándar)\n"
+            "🔹 *2* - Blanco (precio + 25%)\n\n"
             "_Responde con 1 o 2._"
         )
 
     elif paso == 5:  # COLOR
         if texto not in ["1", "2"]:
-            return " Opción no válida.\n\nResponde *1* para Café o *2* para Blanco."
+            return "⚠️ Opción no válida.\n\nResponde *1* para Café o *2* para Blanco."
         estado["color_carton"] = "cafe" if texto == "1" else "blanco"
         estado["paso"] = 6
-        return "*Paso 6/6*\n\n¿Cuántos *colores de impresión* lleva la caja?\n\n_Responde 0 si no lleva impresión._"
+        return "🎨 *Paso 6/6*\n\n¿Cuántos *colores de impresión* lleva la caja?\n\n_Responde 0 si no lleva impresión._"
 
     elif paso == 6:  # COLORES
         if not texto.isdigit():
-            return " Ingresa solo números.\n\n¿Cuántos *colores*? (0-4)"
+            return "⚠️ Ingresa solo números.\n\n¿Cuántos *colores*? (0-4)"
         colores = int(texto)
         if colores < 0 or colores > 4:
-            return "El número de colores debe estar entre 0 y 4.\n\n¿Cuántos *colores*?"
+            return "⚠️ El número de colores debe estar entre 0 y 4.\n\n¿Cuántos *colores*?"
         estado["color"] = colores
         estado["paso"] = 7
         return "📊 *Paso 7/7*\n\n¿Cuántas *cajas* necesitas?\n\n_Responde 0 si aún no lo sabes._"
@@ -387,7 +387,7 @@ def procesar_mensaje(numero, texto):
             print(f"Error al calcular cotización: {e}")
             usuarios[numero] = {"paso": 0}
             return (
-                f"*Error al calcular la cotización*\n\n"
+                f"❌ *Error al calcular la cotización*\n\n"
                 f"Por favor, intenta nuevamente.\n\n"
                 f"Escribe *menu* para iniciar."
             )
@@ -410,10 +410,10 @@ def verify_webhook():
     print(f"DEBUG: Verificación de webhook - mode={mode}, token={token}")
     
     if mode == "subscribe" and token == VERIFY_TOKEN:
-        print("Webhook verificado correctamente")
+        print("✅ Webhook verificado correctamente")
         return challenge, 200
     else:
-        print("Verificación de webhook fallida")
+        print("❌ Verificación de webhook fallida")
         return "Forbidden", 403
 
 @app.route("/webhook", methods=["POST"])
@@ -428,7 +428,7 @@ def webhook():
         
         # Extraer mensajes del payload
         if "entry" not in data:
-            print(" Payload sin 'entry'")
+            print("⚠️ Payload sin 'entry'")
             return "OK", 200
         
         entry = data["entry"][0]
@@ -442,7 +442,7 @@ def webhook():
         messages = value.get("messages", [])
         
         if not messages:
-            print(" Webhook sin mensajes (probablemente notificación de estado)")
+            print("ℹ️ Webhook sin mensajes (probablemente notificación de estado)")
             return "OK", 200
         
         # Procesar primer mensaje
@@ -460,9 +460,9 @@ def webhook():
         print(f"📤 Respuesta enviada: {resultado_envio}")
         
     except KeyError as e:
-        print(f" Error de estructura en payload: {e}")
+        print(f"❌ Error de estructura en payload: {e}")
     except Exception as e:
-        print(f"Error inesperado en webhook: {e}")
+        print(f"❌ Error inesperado en webhook: {e}")
     
     # Siempre retornar 200 para que Meta no reintente
     return "OK", 200
@@ -480,7 +480,7 @@ def enviar_mensaje(to_number, mensaje):
         dict: Respuesta de la API de WhatsApp
     """
     if not WHATSAPP_TOKEN or not PHONE_NUMBER_ID:
-        print(" WHATSAPP_TOKEN o PHONE_NUMBER_ID no configurados")
+        print("⚠️ WHATSAPP_TOKEN o PHONE_NUMBER_ID no configurados")
         return {"error": "Credenciales no configuradas"}
     
     url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
@@ -499,17 +499,17 @@ def enviar_mensaje(to_number, mensaje):
         respuesta_json = respuesta.json()
         
         if respuesta.status_code == 200:
-            print(f" Mensaje enviado exitosamente a {to_number}")
+            print(f"✅ Mensaje enviado exitosamente a {to_number}")
         else:
-            print(f" Error al enviar mensaje: {respuesta_json}")
+            print(f"❌ Error al enviar mensaje: {respuesta_json}")
         
         return respuesta_json
         
     except requests.exceptions.Timeout:
-        print(" Timeout al enviar mensaje")
+        print("❌ Timeout al enviar mensaje")
         return {"error": "Timeout"}
     except Exception as e:
-        print(f" Error al enviar mensaje: {e}")
+        print(f"❌ Error al enviar mensaje: {e}")
         return {"error": str(e)}
 
 # ==== ENDPOINT DE HEALTH CHECK ====
@@ -526,12 +526,12 @@ if __name__ == "__main__":
     print("="*50)
     print("🏭 Cartón Chile - Bot de WhatsApp")
     print("="*50)
-    print(f"Servidor Flask iniciando en puerto 5000")
-    print(f"VERIFY_TOKEN configurado: {VERIFY_TOKEN}")
-    print(f" WHATSAPP_TOKEN configurado: {'Sí' if WHATSAPP_TOKEN else 'No'}")
-    print(f" PHONE_NUMBER_ID configurado: {'Sí' if PHONE_NUMBER_ID else 'No'}")
+    print(f"✅ Servidor Flask iniciando en puerto 5000")
+    print(f"✅ VERIFY_TOKEN configurado: {VERIFY_TOKEN}")
+    print(f"✅ WHATSAPP_TOKEN configurado: {'Sí' if WHATSAPP_TOKEN else 'No'}")
+    print(f"✅ PHONE_NUMBER_ID configurado: {'Sí' if PHONE_NUMBER_ID else 'No'}")
     print("="*50)
-    print(" Endpoints disponibles:")
+    print("📝 Endpoints disponibles:")
     print("   GET  /webhook - Verificación de webhook")
     print("   POST /webhook - Recibir mensajes")
     print("   GET  /health  - Health check")
