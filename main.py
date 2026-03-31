@@ -331,7 +331,6 @@ def procesar_mensaje(numero, texto):
         if texto not in ["12", "14", "17", "20"]:
             return "⚠️ Tipo no válido.\n\nElige: *12*, *14*, *17* o *20*."
         estado["tipocarton"] = texto
-        estado["valorkilo"] = 1150  # Precio base por kilo
         estado["paso"] = 5
         return (
             "🎨 *Paso 5/6*\n\n¿De qué *color* es el cartón?\n\n"
@@ -363,6 +362,18 @@ def procesar_mensaje(numero, texto):
             return f"{resultado}\n\n¿Cuántas *cajas*?"
         estado["cantidad"] = resultado
 
+        # ===== CALCULAR PRECIO POR KILO SEGÚN CANTIDAD =====
+        # Escala de precios por volumen
+        cantidad = estado["cantidad"]
+        if cantidad > 20:
+            valorkilo = 1150  # Precio más bajo para pedidos grandes
+        elif cantidad > 10:
+            valorkilo = 1200
+        elif cantidad > 5:
+            valorkilo = 1250
+        else:
+            valorkilo = 1300  # Precio más alto para pedidos pequeños
+
         # ===== CALCULAR COTIZACIÓN =====
         try:
             cotizacion = calcular_caja(
@@ -371,7 +382,7 @@ def procesar_mensaje(numero, texto):
                 alto_interno=estado["alto"],
                 tipocarton=estado["tipocarton"],
                 color_carton=estado["color_carton"],
-                valorkilo=estado["valorkilo"],
+                valorkilo=valorkilo,
                 matriz=0,      # Sin costo de matriz por defecto
                 clisse=0,      # Sin costo de clisé por defecto
                 color=estado["color"],
